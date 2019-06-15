@@ -7,9 +7,9 @@ PlayerShip::PlayerShip()
     playerShipTexture->loadFromFile("textures/player-ship.png");
     this->setTexture(*playerShipTexture);
     this->setTextureRect(sf::IntRect(0, 0, 32, 32));
-    //this->setPosition(0, 0);
+    this->setPosition(0, 0);
 
-    LOG(INFO) << "PlayerShip() was created";
+    LOG(INFO) << "PlayerShip was created";
 }
 
 PlayerShip::~PlayerShip()

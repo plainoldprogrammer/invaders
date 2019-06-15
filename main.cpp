@@ -1,6 +1,7 @@
-#include <SFML/Graphics.hpp>
 #include "easylogging++.h"
+#include <SFML/Graphics.hpp>
 #include "PlayerShip.h"
+#include "EnemyShip.h"
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
@@ -17,6 +18,9 @@ int main()
     // Create the player ship sprite.
     PlayerShip *playerShip = new PlayerShip();
 
+    // Create an enemy ship sprite.
+    EnemyShip *enemyShip = new EnemyShip();
+
     // Draw the game
     while (window.isOpen())
     {
@@ -32,7 +36,9 @@ int main()
 
         window.clear();
         playerShip->setPosition((WINDOW_WIDTH / 2) - 16, WINDOW_HEIGHT - (32 * 2));
+        enemyShip->setPosition(32, 32);
         window.draw(*playerShip);
+        window.draw(*enemyShip);
         window.display();
     }
 
