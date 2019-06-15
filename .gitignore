@@ -4,4 +4,5 @@ obj/*
 *.layout
 invaders.depend
 *.dll
+myeasylog.log
 
