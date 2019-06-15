@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "easylogging++.h"
+#include "PlayerShip.h"
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
@@ -13,15 +14,8 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Invaders Clone");
 
-    // Create the player ship texture.
-    sf::Texture playerShipTexture;
-    playerShipTexture.loadFromFile("textures/player-ship.png");
-
     // Create the player ship sprite.
-    sf::Sprite playerShipSprite;
-    playerShipSprite.setTexture(playerShipTexture);
-    playerShipSprite.setTextureRect(sf::IntRect(0, 0, 32, 32));
-    playerShipSprite.setPosition(0, 0);
+    PlayerShip *playerShip = new PlayerShip();
 
     // Draw the game
     while (window.isOpen())
@@ -37,8 +31,8 @@ int main()
         }
 
         window.clear();
-        playerShipSprite.setPosition((WINDOW_WIDTH / 2) - 16, WINDOW_HEIGHT - (32 * 2));
-        window.draw(playerShipSprite);
+        playerShip->setPosition((WINDOW_WIDTH / 2) - 16, WINDOW_HEIGHT - (32 * 2));
+        window.draw(*playerShip);
         window.display();
     }
 

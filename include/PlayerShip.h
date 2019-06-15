@@ -1,16 +1,19 @@
 #ifndef PLAYERSHIP_H
 #define PLAYERSHIP_H
 
+#include <SFML/Graphics.hpp>
 
-class PlayerShip
+
+class PlayerShip : public sf::Sprite
 {
     public:
         PlayerShip();
         virtual ~PlayerShip();
-
     protected:
 
     private:
+        sf::Texture *playerShipTexture;
 };
+
 
 #endif // PLAYERSHIP_H
