@@ -10,6 +10,7 @@
 INITIALIZE_EASYLOGGINGPP
 
 bool isPlayerShipInOriginalPosition = true;
+bool isBulletFired = false;
 
 
 int main()
@@ -52,6 +53,11 @@ int main()
                     playerShip->moveRight();
                     isPlayerShipInOriginalPosition = false;
                 }
+				else if (event.key.code == sf::Keyboard::Space)
+				{
+					LOG(INFO) << "Shoot a bullet";
+					isBulletFired = true;
+				}
             }
         }
 
@@ -67,7 +73,15 @@ int main()
         }
 
         enemyShip->setPosition(32, 32);
-        bullet->setPosition(playerShip->getPosition().x + ( (playerShip->getTexture()->getSize().x / 2) - (bullet->getTexture()->getSize().x / 2) ), playerShip->getPosition().y - (bullet->getTexture()->getSize().y * 3));
+
+		if (isBulletFired)
+		{
+			bullet->setPosition(playerShip->getPosition().x + ( (playerShip->getTexture()->getSize().x / 2) - (bullet->getTexture()->getSize().x / 2) ), bullet->getPosition().y - .08);
+		}
+		else
+		{
+			bullet->setPosition(playerShip->getPosition().x + ( (playerShip->getTexture()->getSize().x / 2) - (bullet->getTexture()->getSize().x / 2) ), playerShip->getPosition().y - (bullet->getTexture()->getSize().y * 3));
+		}
 
         window.draw(*playerShip);
         window.draw(*enemyShip);
