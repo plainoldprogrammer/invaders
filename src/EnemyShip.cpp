@@ -1,6 +1,7 @@
 #include "easylogging++.h"
 #include "EnemyShip.h"
 
+
 EnemyShip::EnemyShip()
 {
     enemyShipTexture = new sf::Texture();

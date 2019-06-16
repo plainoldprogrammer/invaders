@@ -9,6 +9,8 @@ class PlayerShip : public sf::Sprite
     public:
         PlayerShip();
         virtual ~PlayerShip();
+        void moveLeft();
+        void moveRight();
     protected:
 
     private:

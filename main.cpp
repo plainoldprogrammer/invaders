@@ -8,6 +8,8 @@
 
 INITIALIZE_EASYLOGGINGPP
 
+bool isPlayerShipInOriginalPosition = true;
+
 
 int main()
 {
@@ -32,11 +34,36 @@ int main()
             {
                 window.close();
             }
+            else if (event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::Left)
+                {
+                    LOG(INFO) << "Left arrow key was pressed";
+                    playerShip->moveLeft();
+                    isPlayerShipInOriginalPosition = false;
+                }
+                else if (event.key.code == sf::Keyboard::Right)
+                {
+                    LOG(INFO) << "Right arrow key was pressed";
+                    playerShip->moveRight();
+                    isPlayerShipInOriginalPosition = false;
+                }
+            }
         }
 
         window.clear();
-        playerShip->setPosition((WINDOW_WIDTH / 2) - 16, WINDOW_HEIGHT - (32 * 2));
+
+        if (isPlayerShipInOriginalPosition)
+        {
+            playerShip->setPosition((WINDOW_WIDTH / 2) - 16, WINDOW_HEIGHT - (32 * 2));
+        }
+        else
+        {
+            playerShip->setPosition(playerShip->getPosition().x, playerShip->getPosition().y);
+        }
+
         enemyShip->setPosition(32, 32);
+
         window.draw(*playerShip);
         window.draw(*enemyShip);
         window.display();
