@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "PlayerShip.h"
 #include "EnemyShip.h"
+#include "Bullet.h"
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
@@ -22,6 +23,9 @@ int main()
 
     // Create an enemy ship sprite.
     EnemyShip *enemyShip = new EnemyShip();
+
+    // Create a single bullet.
+    Bullet *bullet = new Bullet();
 
     // Draw the game
     while (window.isOpen())
@@ -63,9 +67,11 @@ int main()
         }
 
         enemyShip->setPosition(32, 32);
+        bullet->setPosition(playerShip->getPosition().x + ( (playerShip->getTexture()->getSize().x / 2) - (bullet->getTexture()->getSize().x / 2) ), playerShip->getPosition().y - (bullet->getTexture()->getSize().y * 3));
 
         window.draw(*playerShip);
         window.draw(*enemyShip);
+        window.draw(*bullet);
         window.display();
     }
 
