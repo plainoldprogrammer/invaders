@@ -6,14 +6,14 @@
 
 class Bullet : public sf::Sprite
 {
-    public:
-        Bullet();
-        virtual ~Bullet();
+	public:
+		Bullet();
+		virtual ~Bullet();
 
-    protected:
+	protected:
 
-    private:
-        sf::Texture *bulletTexture;
+	private:
+		sf::Texture *bulletTexture;
 };
 
 #endif // BULLET_H

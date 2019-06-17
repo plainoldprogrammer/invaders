@@ -6,14 +6,14 @@
 
 class EnemyShip : public sf::Sprite
 {
-    public:
-        EnemyShip();
-        virtual ~EnemyShip();
+	public:
+		EnemyShip();
+		virtual ~EnemyShip();
 
-    protected:
+	protected:
 
-    private:
-        sf::Texture *enemyShipTexture;
+	private:
+		sf::Texture *enemyShipTexture;
 };
 
 #endif // ENEMYSHIP_H

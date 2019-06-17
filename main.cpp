@@ -15,64 +15,64 @@ bool isBulletFired = false;
 
 int main()
 {
-    LOG(INFO) << "Game start";
+	LOG(INFO) << "Game start";
 
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Invaders Clone");
+	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Invaders Clone");
 
-    // Create the player ship sprite.
-    PlayerShip *playerShip = new PlayerShip();
+	// Create the player ship sprite.
+	PlayerShip *playerShip = new PlayerShip();
 
-    // Create an enemy ship sprite.
-    EnemyShip *enemyShip = new EnemyShip();
+	// Create an enemy ship sprite.
+	EnemyShip *enemyShip = new EnemyShip();
 
-    // Create a single bullet.
-    Bullet *bullet = new Bullet();
+	// Create a single bullet.
+	Bullet *bullet = new Bullet();
 
-    // Draw the game
-    while (window.isOpen())
-    {
-        sf::Event event;
+	// Draw the game
+	while (window.isOpen())
+	{
+		sf::Event event;
 
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-            {
-                window.close();
-            }
-            else if (event.type == sf::Event::KeyPressed)
-            {
-                if (event.key.code == sf::Keyboard::Left)
-                {
-                    LOG(INFO) << "Left arrow key was pressed";
-                    playerShip->moveLeft();
-                    isPlayerShipInOriginalPosition = false;
-                }
-                else if (event.key.code == sf::Keyboard::Right)
-                {
-                    LOG(INFO) << "Right arrow key was pressed";
-                    playerShip->moveRight();
-                    isPlayerShipInOriginalPosition = false;
-                }
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				window.close();
+			}
+			else if (event.type == sf::Event::KeyPressed)
+			{
+				if (event.key.code == sf::Keyboard::Left)
+				{
+					LOG(INFO) << "Left arrow key was pressed";
+					playerShip->moveLeft();
+					isPlayerShipInOriginalPosition = false;
+				}
+				else if (event.key.code == sf::Keyboard::Right)
+				{
+					LOG(INFO) << "Right arrow key was pressed";
+					playerShip->moveRight();
+					isPlayerShipInOriginalPosition = false;
+				}
 				else if (event.key.code == sf::Keyboard::Space)
 				{
 					LOG(INFO) << "Shoot a bullet";
 					isBulletFired = true;
 				}
-            }
-        }
+			}
+		}
 
-        window.clear();
+		window.clear();
 
-        if (isPlayerShipInOriginalPosition)
-        {
-            playerShip->setPosition((WINDOW_WIDTH / 2) - 16, WINDOW_HEIGHT - (32 * 2));
-        }
-        else
-        {
-            playerShip->setPosition(playerShip->getPosition().x, playerShip->getPosition().y);
-        }
+		if (isPlayerShipInOriginalPosition)
+		{
+			playerShip->setPosition((WINDOW_WIDTH / 2) - 16, WINDOW_HEIGHT - (32 * 2));
+		}
+		else
+		{
+			playerShip->setPosition(playerShip->getPosition().x, playerShip->getPosition().y);
+		}
 
-        enemyShip->setPosition(32, 32);
+		enemyShip->setPosition(32, 32);
 
 		if (isBulletFired)
 		{
@@ -83,13 +83,13 @@ int main()
 			bullet->setPosition(playerShip->getPosition().x + ( (playerShip->getTexture()->getSize().x / 2) - (bullet->getTexture()->getSize().x / 2) ), playerShip->getPosition().y - (bullet->getTexture()->getSize().y * 3));
 		}
 
-        window.draw(*playerShip);
-        window.draw(*enemyShip);
-        window.draw(*bullet);
-        window.display();
-    }
+		window.draw(*playerShip);
+		window.draw(*enemyShip);
+		window.draw(*bullet);
+		window.display();
+	}
 
-    LOG(INFO) << "Game was closed";
+	LOG(INFO) << "Game was closed";
 
-    return 0;
+	return 0;
 }
