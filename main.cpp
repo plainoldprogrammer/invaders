@@ -28,6 +28,7 @@ int main()
 	// Create a single bullet.
 	Bullet *bullet = new Bullet();
 
+
 	// Draw the game
 	while (window.isOpen())
 	{
@@ -57,6 +58,7 @@ int main()
 				{
 					LOG(INFO) << "Shoot a bullet";
 					isBulletFired = true;
+					bullet->playSound();
 				}
 			}
 		}
