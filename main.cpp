@@ -26,12 +26,33 @@ int main()
 	EnemyShip *enemyShip = new EnemyShip();
 
 	// Create a single bullet.
-	Bullet *bullet = new Bullet();
+	Bullet *bullet = NULL;
 
+	Bullet *bulletArray[100];
+	for (int i = 0; i < 100; i++)
+	{
+		bulletArray[i] = NULL;
+	}
+
+	int bulletsCount = 0;
 
 	// Draw the game
 	while (window.isOpen())
 	{
+		// Clean the window every cycle in the game loop.
+		window.clear();
+
+		if (isPlayerShipInOriginalPosition)
+		{
+			playerShip->setPosition((WINDOW_WIDTH / 2) - 16, WINDOW_HEIGHT - (32 * 2));
+		}
+		else
+		{
+			playerShip->setPosition(playerShip->getPosition().x, playerShip->getPosition().y);
+		}
+
+		enemyShip->setPosition(32, 32);
+
 		sf::Event event;
 
 		while (window.pollEvent(event))
@@ -46,7 +67,7 @@ int main()
 				{
 					LOG(INFO) << "Left arrow key was pressed";
 					playerShip->moveLeft();
-					isPlayerShipInOriginalPosition = false;
+					isPlayerShipInOriginalPosition = false;		;
 				}
 				else if (event.key.code == sf::Keyboard::Right)
 				{
@@ -57,41 +78,41 @@ int main()
 				else if (event.key.code == sf::Keyboard::Space)
 				{
 					LOG(INFO) << "Shoot a bullet";
-					isBulletFired = true;
+					bullet = new Bullet();
+					bullet->setPosition(playerShip->getPosition().x + ( (playerShip->getTexture()->getSize().x / 2) - (bullet->getTexture()->getSize().x / 2) ), playerShip->getPosition().y - (bullet->getTexture()->getSize().y * 3));
+					bulletsCount++;
+					bulletArray[bulletsCount - 1] = bullet;
+
 					bullet->playSound();
 				}
 			}
 		}
 
-		window.clear();
-
-		if (isPlayerShipInOriginalPosition)
-		{
-			playerShip->setPosition((WINDOW_WIDTH / 2) - 16, WINDOW_HEIGHT - (32 * 2));
-		}
-		else
-		{
-			playerShip->setPosition(playerShip->getPosition().x, playerShip->getPosition().y);
-		}
-
-		enemyShip->setPosition(32, 32);
-
-		if (isBulletFired)
-		{
-			bullet->setPosition(playerShip->getPosition().x + ( (playerShip->getTexture()->getSize().x / 2) - (bullet->getTexture()->getSize().x / 2) ), bullet->getPosition().y - .08);
-		}
-		else
-		{
-			bullet->setPosition(playerShip->getPosition().x + ( (playerShip->getTexture()->getSize().x / 2) - (bullet->getTexture()->getSize().x / 2) ), playerShip->getPosition().y - (bullet->getTexture()->getSize().y * 3));
-		}
-
 		window.draw(*playerShip);
 		window.draw(*enemyShip);
-		window.draw(*bullet);
+
+		if (bulletsCount > 0)
+		{
+			LOG(INFO) << "Draw bullets";
+			LOG(INFO) << "bulletsCount: " << bulletsCount;
+
+			for (int i = 0; i < bulletsCount; i++)
+			{
+				bulletArray[i]->setPosition(playerShip->getPosition().x + ( (playerShip->getTexture()->getSize().x / 2) - (bullet->getTexture()->getSize().x / 2) ), bulletArray[i]->getPosition().y - .08);
+				window.draw(*bulletArray[i]);
+			}
+		}
+
 		window.display();
 	}
 
 	LOG(INFO) << "Liberating memory";
+
+	for (int i = 0; i < bulletsCount; i++)
+	{
+		delete bulletArray[i];
+	}
+
 	delete bullet;
 	delete enemyShip;
 	delete playerShip;
