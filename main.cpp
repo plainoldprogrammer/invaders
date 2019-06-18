@@ -91,6 +91,11 @@ int main()
 		window.display();
 	}
 
+	LOG(INFO) << "Liberating memory";
+	delete bullet;
+	delete enemyShip;
+	delete playerShip;
+
 	LOG(INFO) << "Game was closed";
 
 	return 0;

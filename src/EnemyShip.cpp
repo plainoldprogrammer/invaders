@@ -15,5 +15,6 @@ EnemyShip::EnemyShip()
 
 EnemyShip::~EnemyShip()
 {
-	//dtor
+	LOG(INFO) << "Call to the EnemyShip destructor";
+	delete enemyShipTexture;
 }

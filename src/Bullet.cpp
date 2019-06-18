@@ -25,9 +25,10 @@ Bullet::Bullet()
 
 Bullet::~Bullet()
 {
-	free(sound);
-	free(soundBuffer);
-	free(bulletTexture);
+	LOG(INFO) << "Call to the Bullet destructor";
+	delete sound;
+	delete soundBuffer;
+	delete bulletTexture;
 }
 
 void Bullet::playSound()

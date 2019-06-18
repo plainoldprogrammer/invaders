@@ -17,7 +17,8 @@ PlayerShip::PlayerShip()
 
 PlayerShip::~PlayerShip()
 {
-	//dtor
+	LOG(INFO) << "Call to the PlayerShip destructor";
+	delete playerShipTexture;
 }
 
 void PlayerShip::moveLeft()
