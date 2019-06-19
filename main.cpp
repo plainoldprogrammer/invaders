@@ -98,7 +98,7 @@ int main()
 
 			for (int i = 0; i < bulletsCount; i++)
 			{
-				bulletArray[i]->setPosition(playerShip->getPosition().x + ( (playerShip->getTexture()->getSize().x / 2) - (bullet->getTexture()->getSize().x / 2) ), bulletArray[i]->getPosition().y - .08);
+				bulletArray[i]->setPosition(bulletArray[i]->getPosition().x, bulletArray[i]->getPosition().y - .08);
 				window.draw(*bulletArray[i]);
 			}
 		}
