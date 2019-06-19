@@ -6,6 +6,7 @@
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
+#define BULLET_VELOCITY 1
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -98,7 +99,7 @@ int main()
 
 			for (int i = 0; i < bulletsCount; i++)
 			{
-				bulletArray[i]->setPosition(bulletArray[i]->getPosition().x, bulletArray[i]->getPosition().y - .08);
+				bulletArray[i]->setPosition(bulletArray[i]->getPosition().x, bulletArray[i]->getPosition().y - BULLET_VELOCITY);
 				window.draw(*bulletArray[i]);
 			}
 		}
