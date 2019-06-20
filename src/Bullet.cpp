@@ -20,6 +20,8 @@ Bullet::Bullet()
 	sound->setBuffer(*soundBuffer);
 	sound->setVolume(100);
 
+	this->shouldBeDrawed = true;
+
 	LOG(INFO) << "Bullet was created";
 }
 

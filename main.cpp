@@ -6,7 +6,7 @@
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
-#define BULLET_VELOCITY 1
+#define BULLET_VELOCITY 0.05
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -90,17 +90,36 @@ int main()
 		}
 
 		window.draw(*playerShip);
-		window.draw(*enemyShip);
+
+		if (enemyShip->shouldBeDrawed)
+		{
+			window.draw(*enemyShip);
+		}
 
 		if (bulletsCount > 0)
 		{
-			LOG(INFO) << "Draw bullets";
-			LOG(INFO) << "bulletsCount: " << bulletsCount;
+			// LOG(INFO) << "Draw bullets";
+			// LOG(INFO) << "bulletsCount: " << bulletsCount;
 
 			for (int i = 0; i < bulletsCount; i++)
 			{
-				bulletArray[i]->setPosition(bulletArray[i]->getPosition().x, bulletArray[i]->getPosition().y - BULLET_VELOCITY);
-				window.draw(*bulletArray[i]);
+				if (bulletArray[i]->shouldBeDrawed)
+				{
+					bulletArray[i]->setPosition(bulletArray[i]->getPosition().x, bulletArray[i]->getPosition().y - BULLET_VELOCITY);
+					window.draw(*bulletArray[i]);
+
+					// If a bullet impacts with an EnemyShip
+					if (round(bulletArray[i]->getPosition().y) == round(enemyShip->getPosition().y + enemyShip->getTextureRect().height) &&
+						bulletArray[i]->getPosition().x + bulletArray[i]->getTextureRect().width >= enemyShip->getPosition().x &&
+						bulletArray[i]->getPosition().x <= enemyShip->getPosition().x + enemyShip->getTextureRect().width &&
+						enemyShip->shouldBeDrawed)
+					{
+						LOG(INFO) << "There is a collision on " << round(bulletArray[i]->getPosition().y);
+						enemyShip->playSound();
+						enemyShip->shouldBeDrawed = false;
+						bulletArray[i]->shouldBeDrawed = false;
+					}
+				}
 			}
 		}
 

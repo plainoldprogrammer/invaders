@@ -11,6 +11,7 @@ class Bullet : public sf::Sprite
 		Bullet();
 		virtual ~Bullet();
 		void playSound();
+		bool shouldBeDrawed;
 
 	protected:
 
