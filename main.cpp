@@ -23,8 +23,12 @@ int main()
 	// Create the player ship sprite.
 	PlayerShip *playerShip = new PlayerShip();
 
-	// Create an enemy ship sprite.
-	EnemyShip *enemyShip = new EnemyShip();
+	// Create the enemies.
+	EnemyShip *enemyShipArray[10];
+	for (int i = 0; i < 10; i++)
+	{
+		enemyShipArray[i] = new EnemyShip();
+	}
 
 	// Create a single bullet.
 	Bullet *bullet = NULL;
@@ -52,7 +56,11 @@ int main()
 			playerShip->setPosition(playerShip->getPosition().x, playerShip->getPosition().y);
 		}
 
-		enemyShip->setPosition(32, 32);
+		// Positioning the enemies in the screen.
+		for (int i = 0; i < 10; i++)
+		{
+			enemyShipArray[i]->setPosition(56 * (i + 1), 32);
+		}
 
 		sf::Event event;
 
@@ -91,9 +99,12 @@ int main()
 
 		window.draw(*playerShip);
 
-		if (enemyShip->shouldBeDrawed)
+		for (int i = 0; i < 10; i++)
 		{
-			window.draw(*enemyShip);
+			if (enemyShipArray[i]->shouldBeDrawed)
+			{
+				window.draw(*enemyShipArray[i]);
+			}
 		}
 
 		if (bulletsCount > 0)
@@ -108,16 +119,19 @@ int main()
 					bulletArray[i]->setPosition(bulletArray[i]->getPosition().x, bulletArray[i]->getPosition().y - BULLET_VELOCITY);
 					window.draw(*bulletArray[i]);
 
-					// If a bullet impacts with an EnemyShip
-					if (round(bulletArray[i]->getPosition().y) == round(enemyShip->getPosition().y + enemyShip->getTextureRect().height) &&
-						bulletArray[i]->getPosition().x + bulletArray[i]->getTextureRect().width >= enemyShip->getPosition().x &&
-						bulletArray[i]->getPosition().x <= enemyShip->getPosition().x + enemyShip->getTextureRect().width &&
-						enemyShip->shouldBeDrawed)
+					// If a bullet impacts with an EnemyShip.
+					for (int j = 0; j < 10; j++)
 					{
-						LOG(INFO) << "There is a collision on " << round(bulletArray[i]->getPosition().y);
-						enemyShip->playSound();
-						enemyShip->shouldBeDrawed = false;
-						bulletArray[i]->shouldBeDrawed = false;
+						if (round(bulletArray[i]->getPosition().y) == round(enemyShipArray[j]->getPosition().y + enemyShipArray[j]->getTextureRect().height) &&
+							bulletArray[i]->getPosition().x + bulletArray[i]->getTextureRect().width >= enemyShipArray[j]->getPosition().x &&
+							bulletArray[i]->getPosition().x <= enemyShipArray[j]->getPosition().x + enemyShipArray[j]->getTextureRect().width &&
+							enemyShipArray[j]->shouldBeDrawed)
+						{
+							LOG(INFO) << "There is a collision on " << round(bulletArray[i]->getPosition().y);
+							enemyShipArray[j]->playSound();
+							enemyShipArray[j]->shouldBeDrawed = false;
+							bulletArray[i]->shouldBeDrawed = false;
+						}
 					}
 				}
 			}
@@ -134,7 +148,12 @@ int main()
 	}
 
 	delete bullet;
-	delete enemyShip;
+
+	for (int i = 0; i < 10; i++)
+	{
+		delete enemyShipArray[i];
+	}
+
 	delete playerShip;
 
 	LOG(INFO) << "Game was closed";
