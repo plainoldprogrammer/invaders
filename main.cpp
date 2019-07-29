@@ -7,6 +7,7 @@
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 #define BULLET_VELOCITY 0.05
+#define BULLET_LIMIT 10
 
 INITIALIZE_EASYLOGGINGPP
 
@@ -33,8 +34,8 @@ int main()
 	// Create a single bullet.
 	Bullet *bullet = NULL;
 
-	Bullet *bulletArray[100];
-	for (int i = 0; i < 100; i++)
+	Bullet *bulletArray[BULLET_LIMIT];
+	for (int i = 0; i < BULLET_LIMIT; i++)
 	{
 		bulletArray[i] = NULL;
 	}
@@ -89,9 +90,8 @@ int main()
 					LOG(INFO) << "Shoot a bullet";
 					bullet = new Bullet();
 					bullet->setPosition(playerShip->getPosition().x + ( (playerShip->getTexture()->getSize().x / 2) - (bullet->getTexture()->getSize().x / 2) ), playerShip->getPosition().y - (bullet->getTexture()->getSize().y * 3));
+					bulletArray[bulletsCount] = bullet;
 					bulletsCount++;
-					bulletArray[bulletsCount - 1] = bullet;
-
 					bullet->playSound();
 				}
 			}
