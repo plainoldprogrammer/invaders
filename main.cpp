@@ -88,7 +88,7 @@ int main()
 				else if (event.key.code == sf::Keyboard::Space)
 				{
 					LOG(INFO) << "Shoot a bullet";
-					bullet = new Bullet();
+					bullet = new Bullet(bulletsCount);
 					bullet->setPosition(playerShip->getPosition().x + ( (playerShip->getTexture()->getSize().x / 2) - (bullet->getTexture()->getSize().x / 2) ), playerShip->getPosition().y - (bullet->getTexture()->getSize().y * 3));
 					bulletArray[bulletsCount] = bullet;
 					bulletsCount++;

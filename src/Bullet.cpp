@@ -2,7 +2,7 @@
 #include "Bullet.h"
 
 
-Bullet::Bullet()
+Bullet::Bullet(int id)
 {
 	bulletTexture = new sf::Texture();
 	bulletTexture->loadFromFile("textures/bullet.png");
@@ -22,12 +22,13 @@ Bullet::Bullet()
 
 	this->shouldBeDrawed = true;
 
+	bulletId = id;
 	LOG(INFO) << "Bullet was created";
 }
 
 Bullet::~Bullet()
 {
-	LOG(INFO) << "Call to the Bullet destructor";
+	LOG(INFO) << "Call to the Bullet #" << this->bulletId << " destructor";
 	delete sound;
 	delete soundBuffer;
 	delete bulletTexture;
@@ -36,4 +37,9 @@ Bullet::~Bullet()
 void Bullet::playSound()
 {
 	sound->play();
+}
+
+int Bullet::getBulletId()
+{
+	return this->bulletId;
 }
