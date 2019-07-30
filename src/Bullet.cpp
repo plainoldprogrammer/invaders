@@ -23,7 +23,7 @@ Bullet::Bullet(int id)
 	this->shouldBeDrawed = true;
 
 	bulletId = id;
-	LOG(INFO) << "Bullet was created";
+	LOG(INFO) << "Bullet #" << this->bulletId << " was created";
 }
 
 Bullet::~Bullet()
