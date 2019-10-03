@@ -41,12 +41,13 @@ int main()
 	}
 
 	int bulletsCount = 0;
+	int destroyedEnemies = 0;
 
 	sf::Text scoreLabel;
 	sf::Font fontScoreLabel;
 	fontScoreLabel.loadFromFile("arial.ttf");
 	scoreLabel.setFont(fontScoreLabel);
-	scoreLabel.setString("Score: ");
+	scoreLabel.setString("Score: " + std::to_string(destroyedEnemies));
 	scoreLabel.setCharacterSize(12);
 	scoreLabel.setFillColor(sf::Color::White);
 	scoreLabel.setStyle(sf::Text::Bold);
@@ -141,12 +142,14 @@ int main()
 							enemyShipArray[j]->playSound();
 							enemyShipArray[j]->shouldBeDrawed = false;
 							bulletArray[i]->shouldBeDrawed = false;
+							destroyedEnemies++;
 						}
 					}
 				}
 			}
 		}
 
+		scoreLabel.setString("Score: " + std::to_string(destroyedEnemies));
 		window.draw(scoreLabel);
 		window.display();
 	}
