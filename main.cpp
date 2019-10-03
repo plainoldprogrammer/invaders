@@ -42,6 +42,16 @@ int main()
 
 	int bulletsCount = 0;
 
+	sf::Text scoreLabel;
+	sf::Font fontScoreLabel;
+	fontScoreLabel.loadFromFile("arial.ttf");
+	scoreLabel.setFont(fontScoreLabel);
+	scoreLabel.setString("Score: ");
+	scoreLabel.setCharacterSize(12);
+	scoreLabel.setFillColor(sf::Color::White);
+	scoreLabel.setStyle(sf::Text::Bold);
+	scoreLabel.setPosition(10, 6);
+
 	// Draw the game
 	while (window.isOpen())
 	{
@@ -137,6 +147,7 @@ int main()
 			}
 		}
 
+		window.draw(scoreLabel);
 		window.display();
 	}
 
