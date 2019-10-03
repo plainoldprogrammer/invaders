@@ -44,14 +44,24 @@ int main()
 	int destroyedEnemies = 0;
 
 	sf::Text scoreLabel;
-	sf::Font fontScoreLabel;
-	fontScoreLabel.loadFromFile("arial.ttf");
-	scoreLabel.setFont(fontScoreLabel);
+	sf::Font standardFont;
+	standardFont.loadFromFile("arial.ttf");
+	scoreLabel.setFont(standardFont);
 	scoreLabel.setString("Score: " + std::to_string(destroyedEnemies));
 	scoreLabel.setCharacterSize(12);
 	scoreLabel.setFillColor(sf::Color::White);
 	scoreLabel.setStyle(sf::Text::Bold);
 	scoreLabel.setPosition(10, 6);
+
+	sf::Text gameFinishedLabel;
+	gameFinishedLabel.setFont(standardFont);
+	gameFinishedLabel.setString("You Win!");
+	gameFinishedLabel.setCharacterSize(40);
+	gameFinishedLabel.setFillColor(sf::Color::White);
+	gameFinishedLabel.setStyle(sf::Text::Bold);
+	gameFinishedLabel.setPosition(240, 240);
+
+	bool gameWon = false;
 
 	// Draw the game
 	while (window.isOpen())
@@ -143,6 +153,12 @@ int main()
 							enemyShipArray[j]->shouldBeDrawed = false;
 							bulletArray[i]->shouldBeDrawed = false;
 							destroyedEnemies++;
+
+							// Check if all enemies was destroyed
+							if (destroyedEnemies == 10)
+							{
+								gameWon = true;
+							}
 						}
 					}
 				}
@@ -151,6 +167,12 @@ int main()
 
 		scoreLabel.setString("Score: " + std::to_string(destroyedEnemies));
 		window.draw(scoreLabel);
+
+		if (gameWon)
+		{
+			window.draw(gameFinishedLabel);
+		}
+
 		window.display();
 	}
 
