@@ -130,36 +130,51 @@ int main()
 
 		if (bulletsCount > 0)
 		{
-			// LOG(INFO) << "Draw bullets";
-			// LOG(INFO) << "bulletsCount: " << bulletsCount;
-
 			for (int i = 0; i < bulletsCount; i++)
 			{
-				if (bulletArray[i]->shouldBeDrawed)
+				if (bulletArray[i] != NULL)
 				{
-					bulletArray[i]->setPosition(bulletArray[i]->getPosition().x, bulletArray[i]->getPosition().y - BULLET_VELOCITY);
-					window.draw(*bulletArray[i]);
-
-					// If a bullet impacts with an EnemyShip.
-					for (int j = 0; j < 10; j++)
+					if (bulletArray[i]->shouldBeDrawed)
 					{
-						if (round(bulletArray[i]->getPosition().y) == round(enemyShipArray[j]->getPosition().y + enemyShipArray[j]->getTextureRect().height) &&
-							bulletArray[i]->getPosition().x + bulletArray[i]->getTextureRect().width >= enemyShipArray[j]->getPosition().x &&
-							bulletArray[i]->getPosition().x <= enemyShipArray[j]->getPosition().x + enemyShipArray[j]->getTextureRect().width &&
-							enemyShipArray[j]->shouldBeDrawed)
-						{
-							LOG(INFO) << "There is a collision on " << round(bulletArray[i]->getPosition().y);
-							enemyShipArray[j]->playSound();
-							enemyShipArray[j]->shouldBeDrawed = false;
-							bulletArray[i]->shouldBeDrawed = false;
-							destroyedEnemies++;
+						bulletArray[i]->setPosition(bulletArray[i]->getPosition().x, bulletArray[i]->getPosition().y - BULLET_VELOCITY);
+						window.draw(*bulletArray[i]);
 
-							// Check if all enemies was destroyed
-							if (destroyedEnemies == 10)
+						// If a bullet impacts with an EnemyShip.
+						for (int j = 0; j < 10; j++)
+						{
+							if (round(bulletArray[i]->getPosition().y) == round(enemyShipArray[j]->getPosition().y + enemyShipArray[j]->getTextureRect().height) &&
+								bulletArray[i]->getPosition().x + bulletArray[i]->getTextureRect().width >= enemyShipArray[j]->getPosition().x &&
+								bulletArray[i]->getPosition().x <= enemyShipArray[j]->getPosition().x + enemyShipArray[j]->getTextureRect().width &&
+								enemyShipArray[j]->shouldBeDrawed)
 							{
-								gameWon = true;
+								LOG(INFO) << "There is a collision on " << round(bulletArray[i]->getPosition().y);
+								enemyShipArray[j]->playSound();
+								enemyShipArray[j]->shouldBeDrawed = false;
+								bulletArray[i]->shouldBeDrawed = false;
+								destroyedEnemies++;
+
+								// Check if all enemies was destroyed.
+								if (destroyedEnemies == 10)
+								{
+									gameWon = true;
+								}
+
 							}
 						}
+					}
+				}
+			}
+
+			// Free the memory of the bullets that are not displayed any more in the scene.
+			for (int i = 0; i < bulletsCount; i++)
+			{
+				if (bulletArray[i] != NULL)
+				{
+					if (bulletArray[i]->getPosition().y < 0)
+					{
+						LOG(INFO) << "Bullet[" << i << "] will be deleted";
+						delete bulletArray[i];
+						bulletArray[i] = NULL;
 					}
 				}
 			}
