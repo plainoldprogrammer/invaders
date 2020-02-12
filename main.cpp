@@ -63,7 +63,7 @@ int main()
 
 	bool gameWon = false;
 
-	// Draw the game
+	// Draw the game.
 	while (window.isOpen())
 	{
 		// Clean the window every cycle in the game loop.
@@ -151,6 +151,10 @@ int main()
 								enemyShipArray[j]->playSound();
 								enemyShipArray[j]->shouldBeDrawed = false;
 								bulletArray[i]->shouldBeDrawed = false;
+
+								// Move the collided bullet out of the scene to be detected by the bullet memory release loop.
+								bulletArray[i]->setPosition(bulletArray[i]->getPosition().x, 0);
+
 								destroyedEnemies++;
 
 								// Check if all enemies was destroyed.
@@ -165,12 +169,13 @@ int main()
 				}
 			}
 
+			// Bullet memory release loop.
 			// Free the memory of the bullets that are not displayed any more in the scene.
 			for (int i = 0; i < bulletsCount; i++)
 			{
 				if (bulletArray[i] != NULL)
 				{
-					if (bulletArray[i]->getPosition().y < 0)
+					if (bulletArray[i]->getPosition().y <= 0)
 					{
 						LOG(INFO) << "Bullet[" << i << "] will be deleted";
 						delete bulletArray[i];
