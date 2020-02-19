@@ -81,7 +81,10 @@ int main()
 		// Positioning the enemies in the screen.
 		for (int i = 0; i < 10; i++)
 		{
-			enemyShipArray[i]->setPosition(56 * (i + 1), 32);
+			if (enemyShipArray[i] != NULL)
+			{
+				enemyShipArray[i]->setPosition(56 * (i + 1), 32);
+			}
 		}
 
 		sf::Event event;
@@ -122,9 +125,12 @@ int main()
 
 		for (int i = 0; i < 10; i++)
 		{
-			if (enemyShipArray[i]->shouldBeDrawed)
+			if (enemyShipArray[i] != NULL)
 			{
-				window.draw(*enemyShipArray[i]);
+				if (enemyShipArray[i]->shouldBeDrawed)
+				{
+					window.draw(*enemyShipArray[i]);
+				}
 			}
 		}
 
@@ -142,27 +148,32 @@ int main()
 						// If a bullet impacts with an EnemyShip.
 						for (int j = 0; j < 10; j++)
 						{
-							if (round(bulletArray[i]->getPosition().y) == round(enemyShipArray[j]->getPosition().y + enemyShipArray[j]->getTextureRect().height) &&
-								bulletArray[i]->getPosition().x + bulletArray[i]->getTextureRect().width >= enemyShipArray[j]->getPosition().x &&
-								bulletArray[i]->getPosition().x <= enemyShipArray[j]->getPosition().x + enemyShipArray[j]->getTextureRect().width &&
-								enemyShipArray[j]->shouldBeDrawed)
+							if (enemyShipArray[j] != NULL)
 							{
-								LOG(INFO) << "There is a collision on " << round(bulletArray[i]->getPosition().y);
-								enemyShipArray[j]->playSound();
-								enemyShipArray[j]->shouldBeDrawed = false;
-								bulletArray[i]->shouldBeDrawed = false;
-
-								// Move the collided bullet out of the scene to be detected by the bullet memory release loop.
-								bulletArray[i]->setPosition(bulletArray[i]->getPosition().x, 0);
-
-								destroyedEnemies++;
-
-								// Check if all enemies was destroyed.
-								if (destroyedEnemies == 10)
+								if (round(bulletArray[i]->getPosition().y) == round(enemyShipArray[j]->getPosition().y + enemyShipArray[j]->getTextureRect().height) &&
+									bulletArray[i]->getPosition().x + bulletArray[i]->getTextureRect().width >= enemyShipArray[j]->getPosition().x &&
+									bulletArray[i]->getPosition().x <= enemyShipArray[j]->getPosition().x + enemyShipArray[j]->getTextureRect().width &&
+									enemyShipArray[j]->shouldBeDrawed)
 								{
-									gameWon = true;
-								}
+									LOG(INFO) << "There is a collision on " << round(bulletArray[i]->getPosition().y);
+									enemyShipArray[j]->playSound();
+									enemyShipArray[j]->shouldBeDrawed = false;
+									bulletArray[i]->shouldBeDrawed = false;
 
+									// Move the collided bullet out of the scene to be detected by the bullet memory release loop.
+									bulletArray[i]->setPosition(bulletArray[i]->getPosition().x, 0);
+
+									destroyedEnemies++;
+
+									// Check if all enemies was destroyed.
+									if (destroyedEnemies == 10)
+									{
+										gameWon = true;
+									}
+
+									delete enemyShipArray[j];
+									enemyShipArray[j] = NULL;
+								}
 							}
 						}
 					}
